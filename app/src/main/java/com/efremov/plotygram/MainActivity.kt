@@ -17,8 +17,8 @@ import io.reactivex.Single
 import java.io.FileReader
 import java.io.InputStreamReader
 import android.content.res.Configuration.UI_MODE_NIGHT_MASK
-
-
+import android.view.MotionEvent
+import android.view.View
 
 
 class MainActivity : AppCompatActivity() {
@@ -77,6 +77,19 @@ class MainActivity : AppCompatActivity() {
                 }
             )
             .connect()
+
+
+        chartView.setOnTouchListener(object : View.OnTouchListener {
+
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+
+                chartView.setCurrX(event?.x!!)
+
+                chartView.invalidate()
+
+                return true
+            }
+        })
     }
 
     override fun onDestroy() {

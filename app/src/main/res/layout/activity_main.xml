@@ -37,8 +37,15 @@
               app:layout_constraintTop_toBottomOf="@id/toolbar"
               android:layout_marginTop="16dp"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.efremov.plotygram.ChartView
             android:id="@+id/chartView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:layout_constraintTop_toBottomOf="@id/followersLabel"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/chartView1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +53,8 @@
             app:layout_constraintTop_toBottomOf="@id/followersLabel"
             android:layout_marginTop="16dp"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp">
+            android:paddingEnd="16dp"
+            android:visibility="gone">
 
         <TextView android:id="@+id/label1"
                   android:layout_width="wrap_content"
