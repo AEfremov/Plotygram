@@ -1,8 +1,11 @@
 package com.efremov.plotygram
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.JsonReader
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -13,6 +16,9 @@ import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
 import java.io.FileReader
 import java.io.InputStreamReader
+import android.content.res.Configuration.UI_MODE_NIGHT_MASK
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,8 +29,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        toolbar.apply {
+            inflateMenu(R.menu.menu_night_mode)
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.nightModeAction -> {
+                        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                        if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                            delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        } else if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                            delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                        }
+                    }
+                }
+                true
+            }
+        }
+
 //        val REVIEW_TYPE = object : TypeToken<List<ChartData>>() {}.type
-        val gson = Gson()
+//        val gson = Gson()
 //        val reader = JsonReader(FileReader("app/chart_data.json"))
 //        val data: List<ChartData> = gson.fromJson(reader, REVIEW_TYPE)
 //        textview1.text = data.size.toString()
