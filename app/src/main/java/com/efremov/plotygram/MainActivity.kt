@@ -17,6 +17,8 @@ import io.reactivex.Single
 import java.io.FileReader
 import java.io.InputStreamReader
 import android.content.res.Configuration.UI_MODE_NIGHT_MASK
+import android.graphics.Point
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -72,12 +74,24 @@ class MainActivity : AppCompatActivity() {
             .subscribe(
                 { chartsData ->
                     textview1.text = chartsData.size.toString()
+                    chartView.setChartData(chartsData[0])
                 },
                 { error ->
                     error.printStackTrace()
                 }
             )
             .connect()
+
+        val display = windowManager.defaultDisplay
+        val size = Point()
+        display.getSize(size)
+        val width = size.x
+        val height = size.y
+
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val screenHeight = displayMetrics.heightPixels.toFloat()
+        val screenWidth = displayMetrics.widthPixels.toFloat()
     }
 
     override fun onDestroy() {

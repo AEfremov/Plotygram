@@ -3,6 +3,7 @@ package com.efremov.plotygram
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
@@ -26,6 +27,8 @@ class ChartView : View {
 
     var x1 = 0f
     var x2 = 0f
+
+    private lateinit var chartData: ChartData
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -61,6 +64,12 @@ class ChartView : View {
             paint2.strokeCap = Paint.Cap.ROUND
         }
     }
+
+    fun setChartData(chartData: ChartData) {
+        this.chartData = chartData
+    }
+
+    fun getChartData() : ChartData = this.chartData
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
 
@@ -119,14 +128,47 @@ class ChartView : View {
         super.onDraw(canvas)
 
 //        canvas?.drawLine(20f, 0f, 500f, 300f, paint2)
-//        path.reset()
-        path.moveTo(50f, 50f)
-        path.lineTo(300f, 50f)
-        path.lineTo(100f, 400f)
-        path.lineTo(400f, 400f)
+
+        path.reset()
+//        path.moveTo(50f, 50f)
+//        path.lineTo(300f, 50f)
+//        path.lineTo(100f, 400f)
+//        path.lineTo(400f, 400f)
 //        path.close()
+
+        path.moveTo(50f, 50f)
+        path.lineTo(100f, 200f)
+        path.lineTo(150f, 100f)
+        path.lineTo(800f, 50f)
+
         canvas?.drawPath(path, paint2)
 
         canvas?.drawLine(currentXStart, 0f, currentXStart, 600f, paint)
+    }
+
+    fun drawChart(chartData: ChartData, canvas: Canvas) {
+
+        val yoColor = Color.parseColor(chartData.colors.y0)
+        val y1Color = Color.parseColor(chartData.colors.y1)
+
+        val xAxis = chartData.columns[0].subList(1, chartData.columns[0].size)
+        val y0Axis = chartData.columns[1].subList(1, chartData.columns[1].size)
+        val y1Axis = chartData.columns[2].subList(1, chartData.columns[2].size)
+
+        val y0Paint = Paint()
+        val y0Path = Path()
+
+        y0Paint.style = Paint.Style.STROKE
+        y0Paint.color = ContextCompat.getColor(context, R.color.color5)
+        y0Paint.strokeWidth = 3f
+        y0Paint.isAntiAlias = true
+        y0Paint.isDither = true
+        y0Paint.strokeJoin = Paint.Join.ROUND
+        y0Paint.strokeCap = Paint.Cap.ROUND
+
+        xAxis.asSequence().forEachIndexed { index, value ->
+
+        }
+
     }
 }
